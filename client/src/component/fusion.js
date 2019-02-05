@@ -8,21 +8,27 @@ import FusionCharts from 'fusioncharts';
 import TimeSeries from 'fusioncharts/fusioncharts.timeseries';
 import ReactFC from 'react-fusioncharts';
 
+//import schema and data
+import schema_tmp from './schema';
+
+
 // Step 4 - Adding the chart as dependency to the core fusioncharts
 ReactFC.fcRoot(FusionCharts, TimeSeries);
 
 // Step 5 - Creating the JSON object to store the chart configurations
-const jsonify = res => res.json();
-const dataFetch = fetch(
-'https://raw.githubusercontent.com/fusioncharts/dev_centre_docs/master/assets/datasources/fusiontime/online-sales-single-series-area-data-plot/data.json'
-).then(jsonify);
-const schemaFetch = fetch( 'https://raw.githubusercontent.com/fusioncharts/dev_centre_docs/master/assets/datasources/fusiontime/online-sales-single-series-area-data-plot/schema.json'
-).then(jsonify);
+// const jsonify = res => res.json();
+// const dataFetch = data_tmp
+// console.log(data_tmp)
+// const schemaFetch = schema_tmp
+// console.log(schema_tmp)
+// console.log(jsonify)
+// JSON.stringify(schema_tmp)
+// console.log(schemaFetch)
 
 class ChartViewer extends React.Component {
     constructor(props) {
         super(props);
-        this.onFetchData = this.onFetchData.bind(this);
+        // this.onFetchData = this.onFetchData.bind(this);
         this.state = {
             timeseriesDs: {
                 type: 'timeseries',
@@ -38,29 +44,48 @@ class ChartViewer extends React.Component {
                         }]
                     }]
                 }
-            }
+            },
+            data: props.data,
+            loaded: true
         };
     }
-    componentDidMount() {
-        this.onFetchData();
+    
+    componentWillMount() {
+        console.log("componentWillmount")
+        this.onFetchData()
     }
     onFetchData() {
-        Promise.all([dataFetch, schemaFetch]).then(res => {
+        Promise.all([this.state.data, schema_tmp]).then(res => {
+            console.log(res)
             const data = res[0];
             const schema = res[1];
             const fusionTable = new FusionCharts.DataStore().createDataTable(data, schema);
             const timeseriesDs = Object.assign({}, this.state.timeseriesDs);
             timeseriesDs.dataSource.data = fusionTable;
             this.setState({
-                timeseriesDs
+                timeseriesDs : timeseriesDs,
+                loaded: true
             });
         });
     }
+    componentWillReceiveProps(nextProps) {
+        console.log("willReceiveProps")  
+        console.log(nextProps)
+        this.setState({ 
+            data: nextProps.data,
+            loaded: false
+        }, () => {
+            console.log(this.state.data)
+            this.onFetchData()
+        });
+        
+    }
 
     render() {
+        console.log("render")
         return (
         <div>
-        {this.state.timeseriesDs.dataSource.data 
+        {this.state.timeseriesDs.dataSource.data && this.state.loaded
             ? ( <ReactFC {...this.state.timeseriesDs} />) 
             : ('loading')}
         </div>

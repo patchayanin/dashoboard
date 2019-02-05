@@ -4,17 +4,15 @@ import './App.css';
 import Chart from './component/reactchart';
 import ChartGoogle from './component/google';
 import Chartfusion from './component/fusion';
-// import firebase from 'firebase';
 import fire from './config';
-// import { database } from 'firebase';
+import data_tmp from './component/data';
 
 class App extends Component {
-  constructor(){
-    super();
-    // this.app = firebase.initializeApp(db_config);
-    // this.database = firebase.database().ref('user');
+  constructor(props){
+    super(props);
     this.state = {
-      user : 10
+      load : false,
+      data : []
     }
   }
   // updateInput = e => {
@@ -22,45 +20,42 @@ class App extends Component {
   //     [e.target.name]: e.target.value
   //   });
   // }
-  componentDidMount(){
+  componentWillMount(){
+    console.log("compontWillMount")
     const db = fire.firestore();
     db.settings({
       timestampsInSnapshots: true
     });
-
     db.collection('user').onSnapshot((snapshot) => {
+      // console.log(snapshot)    
+      var data_new = []
       snapshot.forEach(doc => {
-        // console.log(doc.id, '=>', doc.data());
-        // console.log(doc.data().name + doc.data().age);
-        console.log(doc.data().carbon);
-        this.setState({
-          user:doc.data().carbon
-        })
+        data_new.push([doc.data().date,doc.data().carbon])
       });
+      this.setState({
+        data: data_new,
+        load : true
+      })
+      // console.log(this.state.data)
     }, (error) => {
       console.log('Error!', error);
     });
-
   }
   
   render() {
+    console.log(this.state.data)
     return (
         <div>
-          <h1>the value is {this.state.user} </h1>
-          {/* <button onClick={this.getData}>
-           Get Data
-          </button> */}
+          {this.state.load 
+           ? ( <Chartfusion data={this.state.data}/> ) 
+           : ('loading.....')
+          }
         </div>
-        /* <div className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h2>Welcome to React</h2>
-        </div> */
         /* React-chart-j2
         <Chart/>
         React-google-Chart
-        <ChartGoogle/>
-        Fusion Chart
-        <Chartfusion/> */
+        <ChartGoogle/>*/
+       
     );
   }
 }
