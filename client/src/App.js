@@ -4,6 +4,7 @@ import './App.css';
 import Chart from './component/reactchart';
 import ChartGoogle from './component/google';
 import Chartfusion from './component/fusion';
+import Donut from './component/donutChart'
 import fire from './config';
 import data_tmp from './component/data';
 
@@ -48,70 +49,63 @@ class App extends Component {
   render() {
     return (
         <div class="container">
-          <h1>Carbon Dashboard</h1> 
-          <Row>
-          <Col xs={6} md={4}>
-          <Card bg="secondary" text="white" style={{ width: '23rem' , height:'23rem'}}>
-          <Card.Header>COST</Card.Header>
-          <Card.Body>
-            <Card.Title>ToTal Carbon : </Card.Title>
-            <Card.Text>
-              {this.state.sumcarbon}
-            </Card.Text>
-          </Card.Body>
-        </Card>
-        </Col>
-        <Col md={6} md={4}>
-          <Card bg="secondary" text="white" style={{ width: '23rem' , height:'23rem'}}>
-          <Card.Header>CHANGE IN COST</Card.Header>
-          <Card.Body>
-            <Card.Title>Secondary Card Title</Card.Title>
-            <Card.Text>
-              Some quick example text to build on the card title and make up the bulk
-              of the card's content.
-            </Card.Text>
-          </Card.Body>
-        </Card>
-        </Col>
-        <Col xs={6} md={4}>
-          <Card bg="secondary" text="white" style={{ width: '23rem' , height:'23rem'}}>
-          <Card.Header>USAGE ESTIMATE</Card.Header>
-          <Card.Body>
-            <Card.Title>Secondary Card Title</Card.Title>
-            <Card.Text>
-              Some quick example text to build on the card title and make up the bulk
-              of the card's content.
-            </Card.Text>
-          </Card.Body>
-        </Card>
-        </Col>
-          </Row>
-          <Row md={3}>
-          <Col md={6} md={4}>
-          <Card bg="secondary" text="white" style={{ width: '70.5rem' }}>
-          <Card.Header>COST</Card.Header>
-          <Card.Body>
-            {/* <Card.Title>Secondary Card Title</Card.Title>
-            <Card.Text>
-              Some quick example text to build on the card title and make up the bulk
-              of the card's content.
-            </Card.Text> */}
-             {this.state.load 
-           ? ( <Chartfusion data={this.state.data}/> ) 
-           : ('loading.....')
-          }
-          </Card.Body>
-        </Card> 
-        </Col>
-          </Row>
-         
-          {/* Sum carbon is {this.state.sumcarbon} */}
-         
+         <h3>Carbon Dashboard</h3> 
+         <div class="row">
+        <div class="col-md-4">
+        <Card bg="secondary" text="white" style={{ width: '23rem' , height:'23rem'}}>
+        <Card.Header>COST</Card.Header>
+        <Card.Body>
+        {this.state.load 
+         ? ( <Donut sum={this.state.sumcarbon}/>) 
+         : ('loading.....')
+        }
+        </Card.Body>
+      </Card>
+      </div>
+      <div class="col-md-4">
+        <Card bg="secondary" text="white" style={{ width: '23rem' , height:'23rem'}}>
+        <Card.Header>CHANGE IN COST</Card.Header>
+        <Card.Body>
+          <Card.Title>Secondary Card Title</Card.Title>
+          <Card.Text>
+            Some quick example text to build on the card title and make up the bulk
+            of the card's content.
+          </Card.Text>
+        </Card.Body>
+      </Card>
+      </div>
+      <div class="col-md-4">
+        <Card bg="secondary" text="white" style={{ width: '23rem' , height:'23rem'}}>
+        <Card.Header>CARBON FOOTPRINT</Card.Header>
+        <Card.Body>
+          <Card.Title>Secondary Card Title</Card.Title>
+          <Card.Text>
+            Some quick example text to build on the card title and make up the bulk
+            of the card's content.
+          </Card.Text>
+        </Card.Body>
+      </Card>
+      </div>
+      </div>
+      <div class="row">
+        <div class="col-md-4">
+        <Card bg="secondary" text="white" style={{ width: '70.5rem' }}>
+        <Card.Header>COST</Card.Header>
+        <Card.Body>
+           {this.state.load 
+         ? ( <Chartfusion data={this.state.data}/> ) 
+         : ('loading.....')
+           }
+        </Card.Body>
+      </Card> 
+        </div> 
+      </div>
         </div>
-        // {/* /* React-chart-j2
+          // {/* Sum carbon is {this.state.sumcarbon} */ }
+        /* React-chart-j2
         // <Chart/>
         // React-google-Chart
-        // <ChartGoogle/>*/}
+        // <ChartGoogle/>*/
     );
   }
 }

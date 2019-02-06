@@ -8,7 +8,7 @@ import FusionCharts from 'fusioncharts';
 import TimeSeries from 'fusioncharts/fusioncharts.timeseries';
 import ReactFC from 'react-fusioncharts';
 
-//import schema and data
+//import schema
 import schema_tmp from './schema';
 
 
@@ -28,7 +28,7 @@ ReactFC.fcRoot(FusionCharts, TimeSeries);
 class ChartViewer extends React.Component {
     constructor(props) {
         super(props);
-        // this.onFetchData = this.onFetchData.bind(this);
+        this.onFetchData = this.onFetchData.bind(this);
         this.state = {
             timeseriesDs: {
                 type: 'timeseries',
@@ -37,7 +37,19 @@ class ChartViewer extends React.Component {
                 height: '400',
                 dataSource: {
                     caption: { text: 'Online Sales of a SuperStore in the US' },
-                    data: null,
+                    bgAlpha: 0,
+                    canvasBgAlpha:0,
+                    data: null, 
+                    chart: {
+                        style: {
+                        background: {
+                            "fill-opacity":"0"
+                        },
+                        canvas:{
+                            "fill-opacity":"0"
+                        }
+                        }
+                    },
                     yAxis: [{
                         plot: [{
                             value: 'Sales ($)'

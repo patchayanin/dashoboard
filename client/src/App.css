@@ -24,20 +24,16 @@
 
 .container {
   font-family: sans-serif;
-  font-weight: 300;
+  font-weight: 50;
   color: #6e0fa5;
   text-align: left;
   position: absolute;
   width: 100%;
+  top: 5%
 }
 
-.card-columns {
-  @include media-breakpoint-only(lg) {
-    column-count: 4;
-  }
-  @include media-breakpoint-only(xl) {
-    column-count: 5;
-  }
+.row{
+  margin-top: 15px
 }
 
 @keyframes App-logo-spin {
