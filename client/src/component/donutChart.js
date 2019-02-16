@@ -41,7 +41,13 @@ class Donut extends React.Component {
                         "theme": "fusion", 
                         "centerLabelFontSize":30,
                         "centerLabelColor":"#ffffff",
-                        "showLegend":0,
+                        "palettecolors":"#FFC300,#440A5B,#FF0000",
+                        "labelAlpha":0,
+                        "labelBorderPadding":0,
+                        "legendItemFontColor":"#ffffff",
+                        "enableSmartLabels":0,
+                        "showLegend":1,
+                        "legendPosition":"Bottom",
                         "logoPosition": "TL",
                         "plotFillAlpha":80,
                         "bgAlpha": "0",
@@ -64,6 +70,16 @@ class Donut extends React.Component {
                 }
             }
         };
+    }
+
+    componentWillReceiveProps(nextProps) {
+        console.log("willReceiveProps--donut")  
+        console.log(nextProps)
+        const chartConfigsNew = Object.assign({}, this.state.chartConfigs);
+        chartConfigsNew.dataSource.chart.defaultCenterLabel = "Total\n"+parseInt(nextProps.sum);
+        this.setState({
+            chartConfigs : chartConfigsNew,
+        });
     }
   render() {
      return (

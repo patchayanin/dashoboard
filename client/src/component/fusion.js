@@ -10,6 +10,7 @@ import ReactFC from 'react-fusioncharts';
 
 //import schema
 import schema_tmp from './schema';
+// import './fusion.css';
 
 
 // Step 4 - Adding the chart as dependency to the core fusioncharts
@@ -33,26 +34,39 @@ class ChartViewer extends React.Component {
             timeseriesDs: {
                 type: 'timeseries',
                 renderAt: 'container',
-                width: '600',
-                height: '400',
+                width: '900',
+                height: '500',
+                chartLeftMargin : 110,
+                // paletteColors:"#FAE30D,#CB0DFA,#ffffff",
+                paletteColors:"#FAE30D",
                 dataSource: {
-                    caption: { text: 'Online Sales of a SuperStore in the US' },
+                    styleDefinition: {
+                        "colorstyle": {
+                            "fill": "#FAE30D"
+                        }
+                    },
+                    caption: { 
+                        text: "Online Sales of a SuperStore",
+                        style: {
+                            text: "colorstyle"
+                        } },
                     bgAlpha: 0,
                     canvasBgAlpha:0,
                     data: null, 
                     chart: {
-                        style: {
+                      style: {
+                          line:"colorstyle",
                         background: {
                             "fill-opacity":"0"
                         },
                         canvas:{
                             "fill-opacity":"0"
                         }
-                        }
+                      }
                     },
                     yAxis: [{
                         plot: [{
-                            value: 'Sales ($)'
+                            value: ''
                         }]
                     }]
                 }
